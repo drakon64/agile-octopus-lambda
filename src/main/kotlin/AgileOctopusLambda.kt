@@ -45,14 +45,13 @@ suspend fun main() {
         .date
         .plus(datePeriod)
 
-    val startOfTomorrow = tomorrow.atStartOfDayIn(timeZone)
-
-    val endOfTomorrow = tomorrow.plus(datePeriod)
-        .atStartOfDayIn(timeZone)
-
     val standardUnitRates = ktorClient.get("https://api.octopus.energy/v1/products/AGILE-18-02-21/electricity-tariffs/E-1R-AGILE-18-02-21-C/standard-unit-rates/") {
-        parameter("period_from", startOfTomorrow)
-        parameter("period_to", endOfTomorrow)
+        parameter("period_from", tomorrow.atStartOfDayIn(timeZone))
+
+        parameter(
+            "period_to", tomorrow.plus(datePeriod)
+                .atStartOfDayIn(timeZone)
+        )
     }.body<Results>()
         .results
         .reversed()
