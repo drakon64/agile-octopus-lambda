@@ -36,7 +36,7 @@ private class StandardUnitRate(
 )
 
 @Serializable
-private class Results(val results: List<StandardUnitRate>)
+private class Results(val results: Array<StandardUnitRate>)
 
 suspend fun main() {
     // TODO: Are we working out the start and end times correctly? https://developer.octopus.energy/docs/api/#agile-octopus
