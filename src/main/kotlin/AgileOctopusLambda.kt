@@ -17,6 +17,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
+private val timeZone = TimeZone.of("Europe/London")
+private val datePeriod = DatePeriod(days = 1)
+
 private val ktorClient = HttpClient {
     install(ContentNegotiation) {
         json(Json {
@@ -26,17 +29,14 @@ private val ktorClient = HttpClient {
 }
 
 @Serializable
-private class Results(val results: List<StandardUnitRate>)
-
-@Serializable
 private class StandardUnitRate(
     @SerialName("value_inc_vat") val valueIncVat: Double,
     @SerialName("valid_from") val validFrom: Instant,
     @SerialName("valid_to") val validTo: Instant,
 )
 
-private val timeZone = TimeZone.of("Europe/London")
-private val datePeriod = DatePeriod(days = 1)
+@Serializable
+private class Results(val results: List<StandardUnitRate>)
 
 suspend fun main() {
     // TODO: Are we working out the start and end times correctly? https://developer.octopus.energy/docs/api/#agile-octopus
