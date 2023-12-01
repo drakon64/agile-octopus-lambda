@@ -58,8 +58,11 @@ suspend fun main() {
     // TODO: Send SMS
     println(buildMap {
         for (i in 0..44) {
+            val from = standardUnitRates[i].validFrom.toLocalDateTime(timeZone).time
+            val to = standardUnitRates[i + 1].validTo.toLocalDateTime(timeZone).time
+
             put(
-                "${standardUnitRates[i].validFrom.toLocalDateTime(timeZone).time} - ${standardUnitRates[i + 1].validTo.toLocalDateTime(timeZone).time}",
+                "$from - $to",
                 standardUnitRates[i].valueIncVat + standardUnitRates[i + 1].valueIncVat
             )
         }
