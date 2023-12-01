@@ -57,24 +57,15 @@ suspend fun main() {
         .results
         .reversed()
 
-    val hourlyRates = buildMap {
+    // TODO: Send SMS
+    println(buildMap {
         for (i in 0..44) {
             put(
                 "${standardUnitRates[i].validFrom.toLocalDateTime(timeZone).time} - ${standardUnitRates[i + 1].validTo.toLocalDateTime(timeZone).time}",
                 standardUnitRates[i].valueIncVat + standardUnitRates[i + 1].valueIncVat
             )
         }
-    }
-
-    var minHourlyRate = hourlyRates.entries
-        .first()
-
-    hourlyRates.entries
-        .drop(1) // The first entry is already the value of `minHourlyRate`
-        .forEach {
-            if (it.value < minHourlyRate.value) minHourlyRate = it
-        }
-
-    // TODO: Send SMS
-    println(minHourlyRate.key)
+    }.minBy {
+        it.value
+    }.key)
 }
